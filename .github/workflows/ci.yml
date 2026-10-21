@@ -1,0 +1,40 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/workflows/actions/setup-go
+
+      - name: Test
+        run: go test ./...
+        env:
+          CGO_ENABLED: '0'
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/workflows/actions/setup-go
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
+        with:
+          version: latest
+          args: ./...

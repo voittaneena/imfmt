@@ -1,0 +1,36 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task: tidy
+      - task: test
+      - task: fmt
+      - task: lint
+
+  build:
+    desc: Build the imfmt binary
+    cmds:
+      - go build -o imfmt{{if eq OS "windows"}}.exe{{end}} ./cmd/imfmt
+
+  fmt:
+    desc: Format the code with golangci-lint
+    cmds:
+      - golangci-lint fmt ./...
+
+  lint:
+    desc: Lint the code with golangci-lint
+    cmds:
+      - golangci-lint run ./...
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+
+  tidy:
+    desc: Tidy Go modules
+    cmds:
+      - go mod tidy

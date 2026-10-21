@@ -1,0 +1,39 @@
+version: '2'
+
+run:
+  timeout: 5m
+
+linters:
+  default: standard
+  enable:
+    - asasalint
+    - contextcheck
+    - durationcheck
+    - errname
+    - gochecknoinits
+    - godox
+    - iface
+    - inamedparam
+    - nestif
+    - noctx
+    - unconvert
+    - unparam
+    - unqueryvet
+    - whitespace
+
+  settings:
+    inamedparam:
+      skip-single-param: true
+
+formatters:
+  enable:
+    - goimports
+    - golines
+
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/voittaneena/imfmt
+
+    golines:
+      max-len: 120
